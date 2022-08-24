@@ -1,0 +1,28 @@
+module.exports = {
+  root: true,
+  extends: '@react-native-community',
+  parser: 'babel-eslint',
+  extends: 'airbnb',
+  rules: {
+    'global-require': 'off',
+    'react/jsx-filename-extension': ['error', {extensions: ['.js', '.jsx']}],
+    'arrow-body-style': 'off',
+    'no-use-before-define': [
+      'error',
+      {functions: true, classes: true, variables: false},
+    ],
+    'object-curly-newline': 'off',
+    'comma-dangle': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'function-paren-newline': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'no-shadow': 'off',
+    'no-underscore-dangle': 'off',
+    'import/no-cycle': 'off',
+    'operator-linebreak': 'off',
+    indent: 'off',
+    'import/prefer-default-export': 'off',
+    'react/jsx-curly-newline': 'off',
+  },
+};
