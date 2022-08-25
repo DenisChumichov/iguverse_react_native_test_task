@@ -22,7 +22,7 @@ const Main = () => {
   const screenSize = useScreenSize();
 
   const onChooseImage = () => {
-    photoPicker(chosenImageUri, setChosenImageUri);
+    photoPicker().then(setChosenImageUri).catch((error) => console.log(error));
   };
 
   const renderHeader = () => (
@@ -40,7 +40,6 @@ const Main = () => {
 
   return (
     <>
-      <StatusBar translucent backgroundColor="transparent" />
       {chosenImageUri ? (
         <ImageBackground
           style={styles.backgroundImage}
