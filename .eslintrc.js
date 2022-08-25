@@ -1,15 +1,14 @@
 module.exports = {
   root: true,
-  extends: '@react-native-community',
   parser: 'babel-eslint',
   extends: 'airbnb',
   rules: {
     'global-require': 'off',
-    'react/jsx-filename-extension': ['error', {extensions: ['.js', '.jsx']}],
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
     'arrow-body-style': 'off',
     'no-use-before-define': [
       'error',
-      {functions: true, classes: true, variables: false},
+      { functions: true, classes: true, variables: false },
     ],
     'object-curly-newline': 'off',
     'comma-dangle': 'off',

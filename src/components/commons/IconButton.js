@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import PropTypes from 'prop-types';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-const IconButton = ({icon, onPress}) => {
+const IconButton = ({ icon, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.button}>{icon}</View>
@@ -21,5 +22,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
 });
+
+IconButton.propTypes = {
+  icon: PropTypes.node.isRequired,
+  onPress: PropTypes.func
+};
+
+IconButton.defaultProps = {
+  onPress: () => {}
+};
 
 export default IconButton;

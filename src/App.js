@@ -7,10 +7,16 @@
  */
 
 import React from 'react';
+import { StatusBar } from 'react-native';
 import Main from './pages/Main';
 
 const App = () => {
-  return <Main />;
+  return (
+    <>
+      <StatusBar translucent backgroundColor="transparent" />
+      <Main />
+    </>
+);
 };
 
 export default App;
