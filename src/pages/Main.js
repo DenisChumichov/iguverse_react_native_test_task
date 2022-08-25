@@ -4,16 +4,20 @@ import {
   Dimensions,
   Image,
   ImageBackground,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Draggable from 'react-native-draggable';
 import {launchImageLibrary} from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {BlurView} from '@react-native-community/blur';
 import IconButton from '../components/commons/IconButton';
 import qrcode from '../assets/qrcode.png';
+import colors from '../styles/colors';
 
 const Main = () => {
   const [chosenImageUri, setChosenImageUri] = useState();
@@ -23,6 +27,7 @@ const Main = () => {
     height: sizeScreen.height,
   });
   const [contentHeight, setContentHeight] = useState(0);
+  const [contentColor, setContentColor] = useState(Object.values(colors)[0]);
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({screen}) =>
@@ -46,6 +51,50 @@ const Main = () => {
     });
   };
 
+  const renderColors = () => (
+    <BlurView style={styles.colorsContainer} blurAmount={5} overlayColor="">
+      <ScrollView horizontal style={styles.colorsScroll}>
+        {Object.values(colors).map(color => (
+          <TouchableOpacity onPress={() => setContentColor(color)}>
+            <View
+              style={[
+                styles.border,
+                color === contentColor && {
+                  ...styles.border,
+                  backgroundColor: 'blue',
+                },
+              ]}>
+              <View
+                key={color}
+                style={[styles.color, {backgroundColor: color}]}
+              />
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </BlurView>
+  );
+
+  const renderContent = () => (
+    <Draggable y={screenSize.height - contentHeight - 100}>
+      <View
+        onLayout={event => {
+          setContentHeight(event.nativeEvent.layout.height);
+        }}
+        style={[
+          styles.contentContainer,
+          {width: screenSize.width - 20, backgroundColor: contentColor},
+        ]}>
+        <Image source={{uri: chosenImageUri}} style={styles.image} />
+        <Image source={qrcode} style={styles.qrcode} />
+        <View style={{width: '65%'}}>
+          <Text style={styles.title}>#QE9310</Text>
+          <Text>❤️ I play IguVerse and donate to Friends and Animals</Text>
+        </View>
+      </View>
+    </Draggable>
+  );
+
   const renderHeader = () => (
     <View style={styles.header}>
       <IconButton
@@ -58,31 +107,17 @@ const Main = () => {
       />
     </View>
   );
+
   return (
     <>
       <StatusBar translucent backgroundColor={'transparent'} />
-      {console.log('contentHeight', contentHeight)}
       {chosenImageUri ? (
         <ImageBackground
           style={styles.backgroundImage}
           resizeMode="cover"
           source={{uri: chosenImageUri}}>
-          <Draggable y={screenSize.height - contentHeight - 20}>
-            <View
-              onLayout={event => {
-                setContentHeight(event.nativeEvent.layout.height);
-              }}
-              style={[styles.contentContainer, {width: screenSize.width - 20}]}>
-              <Image source={{uri: chosenImageUri}} style={styles.image} />
-              <Image source={qrcode} style={styles.qrcode} />
-              <View style={{width: '65%'}}>
-                <Text style={styles.title}>#QE9310</Text>
-                <Text>
-                  ❤️ I play IguVerse and donate to Friends and Animals
-                </Text>
-              </View>
-            </View>
-          </Draggable>
+          {renderContent()}
+          {renderColors()}
         </ImageBackground>
       ) : (
         <Text style={[styles.selectImage, {top: screenSize.height / 2}]}>
@@ -110,7 +145,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 15,
     margin: 10,
-    backgroundColor: 'white',
     borderRadius: 16,
     display: 'flex',
     flexDirection: 'row',
@@ -138,6 +172,31 @@ const styles = StyleSheet.create({
   selectImage: {
     fontSize: 24,
     textAlign: 'center',
+  },
+  colorsContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: 80,
+    backgroundColor: '#FFFFFF8F',
+    bottom: 0,
+  },
+  color: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  border: {
+    marginHorizontal: 10,
+    height: 44,
+    width: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  colorsScroll: {
+    paddingVertical: 18,
   },
 });
 
